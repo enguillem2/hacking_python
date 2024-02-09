@@ -12,8 +12,8 @@ def scan(ip):
 
     #send BC packet
     answered,unanswered=scapy.srp(arp_request_broadcast,timeout=1)
-    print(unanswered.summary())
+    print(answered.summary())
 
 
 if __name__ == "__main__":
-    scan("172.16.0.1")
+    scan("192.168.1.0/24")
