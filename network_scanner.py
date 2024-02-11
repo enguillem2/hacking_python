@@ -12,12 +12,10 @@ def scan(ip):
     # arp_request_broadcast.show()
 
     #send BC packet
-    answered_list=scapy.srp(arp_request_broadcast,timeout=1)[0]
-    print(answered_list.summary())
+    answered_list=scapy.srp(arp_request_broadcast,timeout=1,verbose=False)[0]
+    print("\t\t\tIp\t\t\tMAC\n------------------------------------------------------------")
     for host in answered_list:
-        print(host[1].psrc)
-        print(host[1].hwsrc)
-        print("----------------------------------")
+        print(f"\t\t{host[1].psrc}\t\t{host[1].hwsrc}")
 
 
 
