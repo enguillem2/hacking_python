@@ -1,7 +1,22 @@
 import scapy.all as scapy
-import re
+import optparse
+
+def get_arguments():
+    parser = optparse.OptionParser()
+    parser.add_option("-a","--address",dest="address",help="Address to scan")
+    (options,arguments) = parser.parse_args()
+
+    if not options.address:
+        #code to handle error
+        parser.error("[-] Please epecify an address, use --help for info")
+        
+    return options
+
+
+
 
 def scan(ip):
+    hosts=[]
     # scapy.arping(ip)
     arp_request = scapy.ARP(pdst=ip)
     # scapy.ls(scapy.Ether())
@@ -13,11 +28,27 @@ def scan(ip):
 
     #send BC packet
     answered_list=scapy.srp(arp_request_broadcast,timeout=1,verbose=False)[0]
-    print("\t\t\tIp\t\t\tMAC\n------------------------------------------------------------")
     for host in answered_list:
-        print(f"\t\t{host[1].psrc}\t\t{host[1].hwsrc}")
+        h={}
+        h["ip"]=host[1].psrc
+        h["mac"]=host[1].hwsrc
+        hosts.append(h)
+
+    return hosts
+
+def print_host(host):
+    # print("------------------------------------------------------------")
+    # print("\t\t\tIp\t\t\tMAC\n------------------------------------------------------------")
+    print(f"\t\t{host['ip']}\t\t{host['mac']}")
 
 
 
 if __name__ == "__main__":
-    scan("192.168.1.0/24")
+    # os.system('clear')
+    options=get_arguments()
+    address=options.address
+    hosts=scan(address)
+    # print(hosts)
+    print("\t\t\tIp\t\t\tMAC\n------------------------------------------------------------")
+    for host in hosts:
+        print_host(host)
