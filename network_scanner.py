@@ -1,10 +1,10 @@
 import scapy.all as scapy
-import optparse
+import argparse
 
 def get_arguments():
-    parser = optparse.OptionParser()
-    parser.add_option("-a","--address",dest="address",help="Address to scan")
-    (options,arguments) = parser.parse_args()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-a","--address",dest="address",help="Address to scan")
+    options = parser.parse_args()
 
     if not options.address:
         #code to handle error
